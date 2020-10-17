@@ -10,7 +10,13 @@ class App extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            items: []
+            data: {
+                city: null,
+                country: null,
+                avgTemp: null,
+                minTemp: null,
+                maxTemp: null
+            }
         };
     }
 
@@ -19,9 +25,16 @@ class App extends React.Component {
           .then(res => res.json())
           .then(
             (result) => {
+                console.log(result);
                 this.setState({
                     isLoaded: true,
-                    items: result
+                    data: {
+                        city: result.name,
+                        country: result.sys.country,
+                        avgTemp: result.main.temp,
+                        minTemp: result.main.temp_min,
+                        maxTemp: result.main.temp_max
+                    }
                 });
             },
             (error) => {
@@ -34,7 +47,7 @@ class App extends React.Component {
     }
 
     render(){
-        const { error, isLoaded, items } = this.state;
+        const { error, isLoaded, data } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -42,8 +55,7 @@ class App extends React.Component {
         } else {
             return (
                     <div className="App">
-                    <Weather />
-                    <p>items : {items} </p>
+                    <Weather data={data} />
                     </div>
                 );
         }

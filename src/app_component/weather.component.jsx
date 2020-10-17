@@ -1,14 +1,14 @@
 import React from 'react';
 import logo from '../logo.svg'
-const Weather = () => {
+const Weather = (props) => {
     return(
         <div className="card" style={{width: "18rem"}}>
             <img className="card-img-top" src={logo} alt="Weather status"></img>
             <div className="card-body">
                 <p className="card-text">
-                        Country : Seoul <br />
-                        Average Temperature: 25&deg; <br />
-                        Range: {minMaxTemp(22, 35)} <br />
+                        Country : {props.data.city}, {props.data.country} <br />
+    Average Temperature: {props.data.avgTemp}&deg; <br />
+                        Range: {minMaxTemp(props.data.minTemp, props.data.maxTemp)} <br />
                         Description: Slow rain
                 </p>
             </div>
