@@ -15,9 +15,15 @@ class App extends React.Component {
                 country: null,
                 avgTemp: null,
                 minTemp: null,
-                maxTemp: null
+                maxTemp: null,
+                description: "Loading..."
             }
         };
+    }
+
+    computeCelsiusFromKelvin(temperature) {
+        temperature-=273.15;
+        return Math.round(temperature);
     }
 
     componentDidMount() {
@@ -31,9 +37,10 @@ class App extends React.Component {
                     data: {
                         city: result.name,
                         country: result.sys.country,
-                        avgTemp: result.main.temp,
-                        minTemp: result.main.temp_min,
-                        maxTemp: result.main.temp_max
+                        avgTemp: this.computeCelsiusFromKelvin(result.main.temp),
+                        minTemp: this.computeCelsiusFromKelvin(result.main.temp_min),
+                        maxTemp: this.computeCelsiusFromKelvin(result.main.temp_max),
+                        description: result.weather[0].description
                     }
                 });
             },
