@@ -16,7 +16,8 @@ class App extends React.Component {
                 avgTemp: null,
                 minTemp: null,
                 maxTemp: null,
-                description: "Loading..."
+                description: "Loading...",
+                icon: null
             }
         };
     }
@@ -40,7 +41,8 @@ class App extends React.Component {
                         avgTemp: this.computeCelsiusFromKelvin(result.main.temp),
                         minTemp: this.computeCelsiusFromKelvin(result.main.temp_min),
                         maxTemp: this.computeCelsiusFromKelvin(result.main.temp_max),
-                        description: result.weather[0].description
+                        description: result.weather[0].description,
+                        icon: result.weather[0].icon
                     }
                 });
             },
