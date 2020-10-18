@@ -5,8 +5,8 @@ import 'weather-icons/css/weather-icons.min.css'
 import data from './secrets/secrets.json'
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             error: null,
             isLoaded: false,
@@ -17,14 +17,51 @@ class App extends React.Component {
                 minTemp: null,
                 maxTemp: null,
                 description: "Loading...",
-                icon: null
-            }
+            },
+            icon: null
+        };
+        this.weatherIcons = {
+            thunderstorm: "wi-thunderstorm",
+            drizzle: "wi-sleet",
+            rain: "wi-storm-showers",
+            snow: "wi-snow",
+            atmosphere: "wi-fog",
+            clear: "wi-day-sunny",
+            clouds: "wi-day-fog"
         };
     }
 
     computeCelsiusFromKelvin(temperature) {
         temperature-=273.15;
         return Math.round(temperature);
+    }
+
+    getWeatherIcon(icons, rangeID) {
+        switch(true) {
+            case rangeID>=200 && rangeID<=232:
+                this.setState({icon: icons.thunderstorm});
+                break;
+            case rangeID>=300 && rangeID<=321:
+                this.setState({icon: icons.drizzle});
+                break;
+            case rangeID>=500 && rangeID<=531:
+                this.setState({icon: icons.rain});
+                break;
+            case rangeID>=600 && rangeID<=622:
+                this.setState({icon: icons.snow});
+                break;
+            case rangeID>=700 && rangeID<=781:
+                this.setState({icon: icons.atmosphere});
+                break;
+            case rangeID===800:
+                this.setState({icon: icons.clear});
+                break;
+            case rangeID>=801 && rangeID<=804:
+                this.setState({icon: icons.clouds});
+                break;
+            default:
+                this.setState({icon: icons.clouds});
+        }
     }
 
     componentDidMount() {
@@ -41,10 +78,10 @@ class App extends React.Component {
                         avgTemp: this.computeCelsiusFromKelvin(result.main.temp),
                         minTemp: this.computeCelsiusFromKelvin(result.main.temp_min),
                         maxTemp: this.computeCelsiusFromKelvin(result.main.temp_max),
-                        description: result.weather[0].description,
-                        icon: result.weather[0].icon
+                        description: result.weather[0].description
                     }
                 });
+                this.getWeatherIcon(this.weatherIcons, result.weather[0].id);
             },
             (error) => {
                 this.setState({
@@ -56,7 +93,7 @@ class App extends React.Component {
     }
 
     render(){
-        const { error, isLoaded, data } = this.state;
+        const { error, isLoaded, data, icon } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -64,7 +101,7 @@ class App extends React.Component {
         } else {
             return (
                     <div className="App">
-                    <Weather data={data} />
+                    <Weather data={data} icon={icon}/>
                     </div>
                 );
         }
