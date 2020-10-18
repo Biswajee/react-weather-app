@@ -65,8 +65,12 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount() {
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=London&appid=${data.API_KEY}`)
+    getWeather = async (e) => {
+        e.preventDefault();
+
+        const city = e.target.elements.city.value;
+        const country = e.target.elements.country.value;
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${data.API_KEY}`)
           .then(res => res.json())
           .then(
             (result) => {
@@ -97,12 +101,10 @@ class App extends React.Component {
         const { error, isLoaded, data, icon } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return <div>Loading...</div>;
         } else {
             return (
                     <div className="App">
-                        <Form />
+                        <Form loadWeather={this.getWeather} />
                         <Weather data={data} icon={icon}/>
                     </div>
                 );
