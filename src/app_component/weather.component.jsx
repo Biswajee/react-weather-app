@@ -1,7 +1,8 @@
 import React from 'react';
-import logo from '../logo.svg'
+
 const Weather = (props) => {
     return(
+        <div className="d-flex justify-content-center py-4">
         <div className="card" style={{width: "19rem", height:"28rem"}}>
             <div className="card-img-top text-center">
                 <i className={`wi ${props.icon} display-1 py-5`} />
@@ -14,6 +15,7 @@ const Weather = (props) => {
                         Description: {props.data.description.charAt(0).toUpperCase() + props.data.description.slice(1)}
                 </p>
             </div>
+        </div>
         </div>
     )
 };

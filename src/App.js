@@ -1,5 +1,6 @@
 import React from 'react';
 import Weather from './app_component/weather.component'
+import Form from './app_component/form.component'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'weather-icons/css/weather-icons.min.css'
 import data from './secrets/secrets.json'
@@ -101,7 +102,8 @@ class App extends React.Component {
         } else {
             return (
                     <div className="App">
-                    <Weather data={data} icon={icon}/>
+                        <Form />
+                        <Weather data={data} icon={icon}/>
                     </div>
                 );
         }
